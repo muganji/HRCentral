@@ -1,0 +1,57 @@
+﻿@model IPagedList<LeaveDayListViewModel>
+@{
+    ViewData["Title"] = "Leave Days";
+}
+<h3>Leave Days</h3>
+<hr style="padding: 0; border-color: indigo;">
+<a asp-action="add" class="btn btn-danger">Add LeaveDays</a><br><br>
+<div class="panel panel-success">
+    <table class="table table-condensed table-striped table-bordered table-responsive">
+        <thead>
+            <tr>
+                <th class="col-12">Leave Title</th>
+                <th class="col-12">Leave Days</th>
+                <th class="col-12">Date Added</th>
+                <th class="col-12">Date Modified</th>
+                <th class="col-12">CreatedBy</th>
+                <th class="col-12">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var leave in Model)
+                {
+            <tr>
+                <td class="col-12"><a asp-action="details" asp-route-id=@leave.Id>@leave.Title</a></td>
+                <td class="col-12">@leave.Days</td>
+                <td class="col-12">@leave.DateAdded</td>
+                <td class="col-12">@leave.DateModified</td>
+                <td class="col-12">@leave.CreatedBy</td>
+                @if (User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Deletors") || User.Identity.IsAuthenticated && User.IsInRole("ACL-Developers") || User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Admins"))
+                {
+                    <td> <a asp-action="delete" asp-route-id="@leave.Id">Delete</a></td>
+                }
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <div class="card-footer">
+        <pager />
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $('#collapseOne').removeClass('in');
+        $('#collapseTwo').removeClass('in');
+        $('#collapseThree').removeClass('in');
+        $('#collapseFour').removeClass('in');
+
+         $('#collapseThree').addClass('in');
+    </script>
+}
+
+
+

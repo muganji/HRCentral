@@ -1,0 +1,129 @@
+﻿@model IPagedList<EducationDetailListViewModel>
+@{
+    ViewData["Title"] = "Employee Education Background";
+    var employeeSelect = ViewData["Employees"] as IEnumerable<SelectListItem>;
+    var qualificationSelect = ViewData["Qualifications"] as IEnumerable<SelectListItem>;
+
+}
+
+<h3>Employee Education Background</h3>
+<hr style="padding: 0; border-color: indigo;">
+@if (User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Admins") || User.Identity.IsAuthenticated && User.IsInRole("ACL-Developers"))
+{
+    <a asp-action="add" class="btn btn-danger">Add Education</a><br><br>
+}
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <form asp-action="index" asp-controller="employeeeducation" method="post" class="form-horizontal" role="form">
+                <input type="hidden" id="employeeSelect" value="@ViewData["employee"]" />
+                <input type="hidden" id="qualificationSelect" value="@ViewData["qualification"]" />
+
+                <br>
+                <div class="form-group">
+                    <label for="Search Keyword" class="control-label col-xs-1">Search</label>
+                    <div class="col-xs-5">
+                        <input type="search" class="form-control" name="search" id="search" placeholder="Search By Institution" value=@ViewData["search"] autocomplete="off" />
+                    </div>
+                    <label class="control-label col-xs-1" for="Employee">Employee</label>
+                    <div class="col-xs-5">
+                        <select class="form-control" name="employee" id="employee" asp-items="@employeeSelect">
+                            <option>--- Select Employee ---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-1" for="Qualification">Qualification</label>
+                    <div class="col-xs-5">
+                        <select class="form-control" name="qualification" id="qualification" asp-items="@qualificationSelect">
+                            <option>--- Select Qualification ---</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-offset-1 col-xs-11">
+                        <input type="submit" class="btn btn-success" value="Search" />
+                        <a asp-action="index" class="btn btn-default">Clear</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <table class="table table-condensed table-striped table-bordered table-responsive">
+            <thead>
+                <tr>
+                    <th class="col-12 label-default">Employee</th>
+                    <th class="col-12 label-default">Institution</th>
+                    <th class="col-12 label-default">Start Date</th>
+                    <th class="col-12 label-default">End Date</th>
+                    <th class="col-12 label-default">Qualification</th>
+                    <th class="col-12 label-default">Qualification Title</th>
+                    <th class="col-12 label-default">Status</th>
+                    <th class="col-12">Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var employeeEducation in Model)
+                    {
+                <tr>
+                    <td class="col-12"><a asp-action="details" asp-route-id=@employeeEducation.Id>@employeeEducation.Employee</a></td>
+                    <td class="col-12">@employeeEducation.Institution</td>
+                    <td class="col-12">@employeeEducation.Begin</td>
+                    <td class="col-12">@employeeEducation.End</td>
+                    <td class="col-12">@employeeEducation.Qualification</td>
+                    <td class="col-12">@employeeEducation.QualificationTitle</td>
+                    <td class="col-12">
+                        @if (employeeEducation.Status)
+                        {
+                            <span class="label label-info">Completed</span>
+
+                        }
+                        else
+                        {
+                            <span class="label label-success">OnGoing</span>
+                        }
+
+                    </td>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Deletors") || User.Identity.IsAuthenticated && User.IsInRole("ACL-Developers") || User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Admins"))
+                    {
+                        <td> <a asp-action="delete" asp-route-id="@employeeEducation.Id">Delete</a></td>
+                    }
+                </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <div class="card-footer">
+            <pager />
+        </div>
+    </div>
+    @section Scripts{
+        <script>
+            $(function () {
+                var employee = $('#employeeSelect').val();
+                if (employee != '') {
+                    document.getElementById('employee').value = employee;
+                }
+                else {
+                    document.getElementById('employee').selectedIndex = 0;
+                }
+                var qualification = $('#qualificationSelect').val();
+                if (qualification != '') {
+                    document.getElementById('qualification').value = qualification;
+                }
+                else {
+                    document.getElementById('qualification').selectedIndex = 0;
+                }
+
+
+            });
+            $('#collapseOne').removeClass('in');
+            $('#collapseTwo').removeClass('in');
+            $('#collapseThree').removeClass('in');
+            $('#collapseFour').removeClass('in');
+
+            $('#collapseOne').addClass('in');
+        </script>
+    }

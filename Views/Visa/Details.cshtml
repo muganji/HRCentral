@@ -1,0 +1,76 @@
+﻿@model VisaDetailViewModel
+@{
+    ViewData["Title"] = "Employee Visa Details";
+    var employees = ViewData["Employees"] as IEnumerable<SelectListItem>;
+    var responseMessage = TempData["Message"] == null ? string.Empty : TempData["Message"].ToString();
+}
+<h3>Update Visa Details</h3>
+<hr style="padding: 0; border-color: blue;">
+@if (!string.IsNullOrWhiteSpace(responseMessage))
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        @Html.Raw(responseMessage)
+    </div>
+}
+
+    <div class="panel-body">
+        <form asp-action="details" class="form-horizontal" method="post" role="form">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="All" class="alert alert-danger"></div>
+            <div class="form-group">
+                <label asp-for="EmployeeId" class="control-label col-xs-4"></label>
+                <div class="col-xs-4">
+                    <select class="form-control" asp-for="EmployeeId" asp-items=@employees></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="VisaNumber" class="control-label col-xs-4"></label>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" asp-for="VisaNumber" autocomplete="off" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="ExpiryDate" class="control-label col-xs-4"></label>
+                <div class="col-xs-4">
+                    <div class="input-group date">
+                        <input type="text" class="form-control" asp-for="ExpiryDate" placeholder="Visa expiry date" onkeypress="return false;" required autocomplete="off" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    </div>
+                </div>
+            <div class="form-group">
+                <div class="col-xs-offset-4 col-xs-10">
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Admins"))
+                    {
+                        <input type="submit" class="btn btn-primary" value="Save" />
+                    }
+                        <a asp-action="index" class="btn btn-default">&laquo;&nbsp;&nbsp;Back to list</a>
+                    </div>
+            </div>
+        </form>
+    </div>
+
+@section Scripts{
+    <link href="~/lib/datetimepicker/build/jquery.datetimepicker.min.css" rel="stylesheet" />
+    <script src="~/lib/datetimepicker/build/jquery.datetimepicker.full.js"></script>
+    <script>
+        $(function () {
+            $('#ExpiryDate').datetimepicker({
+                format: 'Y-m-d',
+                timepicker: false
+            });
+        });
+    </script>
+    <script>
+        $('#collapseOne').removeClass('in');
+                                $('#collapseTwo').removeClass('in');
+                                $('#collapseThree').removeClass('in');
+        $('#collapseFour').removeClass('in');
+        $('#collapseFive').removeClass('in');
+         $('#collapseSix').removeClass('in');
+
+        $('#collapseOne').addClass('in');
+    </script>
+}

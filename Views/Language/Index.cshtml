@@ -1,0 +1,99 @@
+﻿@model IPagedList<LanguageListViewModel>
+@{
+    ViewData["Title"] = "Employee Languages";
+    var employeeSelectList = ViewData["Employees"] as IEnumerable<SelectListItem>;
+}
+<h3>Languages</h3>
+<hr style="padding: 0; border-color: indigo;">
+@if (User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Admins") || User.Identity.IsAuthenticated && User.IsInRole("ACL-Developers"))
+{
+    <a asp-action="add" class="btn btn-danger">Add Language</a><br><br>
+}
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <form asp-action="index" asp-controller="language" method="post" class="form-horizontal" role="form">
+                <input type="hidden" id="employeeSelect" value="@ViewData["employee"]" />
+                <br>
+                <div class="form-group">
+                    <label for="Search Keyword" class="control-label col-xs-1">Search</label>
+                    <div class="col-xs-5">
+                        <input type="search" class="form-control" name="search" id="search" placeholder="Search By Speech Proficiency" value=@ViewData["search"] autocomplete="off" />
+                    </div>
+                    <label class="control-label col-xs-1" for="Employee">Employee</label>
+                    <div class="col-xs-5">
+                        <select class="form-control" name="employee" id="employee" asp-items="@employeeSelectList">
+                            <option>--- Select Employee ---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-offset-1 col-xs-11">
+                        <input type="submit" class="btn btn-success" value="Search" />
+                        <a asp-action="index" class="btn btn-default">Clear</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <table class="table table-condensed table-striped table-bordered table-responsive">
+            <thead>
+                <tr>
+                    <th class="col-xs-2 label-default">Employee</th>
+                    <th class="col-xs-2 label-default">Written</th>
+                    <th class="col-xs-2 label-default">Speech</th>
+                    <th class="col-xs-2 label-default">Read</th>
+                    <th class="col-12">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var language in Model)
+                    {
+                <tr>
+                    <td class="col-xs-2"><a asp-action="details" asp-route-id=@language.Id>@language.EmployeeName</a></td>
+                    <td class="col-xs-2">@language.WrittenProficiency</td>
+                    <td class="col-xs-2">@language.SpeechProficiency</td>
+                    <td class="col-xs-2">@language.ReadProficiency</td>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Deletors") || User.Identity.IsAuthenticated && User.IsInRole("ACL-Developers") || User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Admins"))
+                    {
+                        <td> <a asp-action="delete" asp-route-id="@language.Id">Delete</a></td>
+                    }
+                </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <div class="card-footer">
+            <pager />
+        </div>
+    </div>
+    @section Scripts{
+        <script>
+            $(function () {
+                var employee = $('#employeeSelect').val();
+                if (employee != '') {
+                    document.getElementById('employee').value = employee;
+                }
+                else {
+                    document.getElementById('employee').selectedIndex = 0;
+                }
+
+            });
+            $('#collapseOne').removeClass('in');
+            $('#collapseTwo').removeClass('in');
+            $('#collapseThree').removeClass('in');
+            $('#collapseFour').removeClass('in');
+            $('#collapseFive').removeClass('in');
+            $('#collapseSix').removeClass('in');
+
+            $('#collapseOne').addClass('in');
+        </script>
+    }
+
+
+
+
+
+
+
+

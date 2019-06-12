@@ -1,0 +1,197 @@
+﻿@model IPagedList<EmployeeListViewModel>
+@{
+    ViewData["Title"] = "Employees";
+
+    var districtsSelectList = ViewData["DistrictSelectList"] as IEnumerable<SelectListItem>;
+    var departmentSelect = ViewData["DepartmentSelectList"] as IEnumerable<SelectListItem>;
+
+    var responseMessage = TempData["Message"] == null ? string.Empty : TempData["Message"].ToString();
+}
+<h3>Exited Employees - Database Search</h3>
+<hr style="padding: 0; border-color: indigo;">
+@if (!string.IsNullOrWhiteSpace(responseMessage))
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        @Html.Raw(responseMessage)
+    </div>
+}
+<div class="panel panel-danger">
+    <div class="panel-heading">
+        <form asp-action="index" asp-controller="retired" method="post" class="form-horizontal" role="form">
+            <input type="hidden" id="districtSelect" value="@ViewData["district"]" />
+            <input type="hidden" id="departmentSelect" value="@ViewData["department"]" />
+            <input type="hidden" id="genderSelect" value="@ViewData["gender"]" />
+
+            <br>
+
+            <div class="form-group">
+                <label for="Search Keyword" class="control-label col-xs-1">Search</label>
+                <div class="col-xs-5">
+                    <input type="search" class="form-control" name="search" id="search" placeholder="Search By PFNumber" value=@ViewData["search"] autocomplete="off" />
+                </div>
+                <label class="control-label col-xs-1" for="Gender">Gender</label>
+                <div class="col-xs-5">
+                    <select class="form-control" name="gender" id="gender">
+                        <option>--- Select Gender ---</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-xs-1" for="District">Birth District</label>
+                <div class="col-xs-5">
+                    <select class="form-control" id="district" name="district" asp-items="@districtsSelectList">
+                        <option>--- Select District---</option>
+                    </select>
+                </div>
+                <label class="control-label col-xs-1" for="Department">Department</label>
+                <div class="col-xs-5">
+                    <select class="form-control" id="department" name="department" asp-items="@departmentSelect">
+                        <option>--- Select Department---</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-offset-1 col-xs-11">
+                    <input type="submit" class="btn btn-success" value="Search" />
+                    <a asp-action="index" class="btn btn-default">Clear</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table table-condensed table-striped table-bordered table-responsive ">
+        <thead>
+            <tr>
+                <th class="col-xs-2 label label-default">Title</th>
+                <th class="col-xs-2 label label-default">PFNumber</th>
+                <th class="col-xs-2 label label-default">Firstname</th>
+                <th class="col-xs-2 label label-default">Lastname</th>
+                <th class="col-xs-2 label label-default">BirthDate</th>
+                <th class="col-xs-2 label label-default">JobTitle</th>
+                <th class="col-xs-2 label label-default">Department</th>
+                <th class="col-xs-2 label label-default">Account</th>
+                <th class="col-xs-2 label label-default">Address</th>
+                <th class="col-xs-2 label label-default">District</th>
+                <th class="col-xs-2 label label-default">Emergency</th>
+                <th class="col-xs-2 label label-default">Nationality</th>
+                <th class="col-xs-2 label label-default">Status</th>
+            </tr>
+            @*<tr>
+                    <th class="col-3"><a asp-for="index" asp-route-sort="@ViewData["GenderSort"]" asp-route-page="@ViewData["Page"]"><label asp-for="@Model.FirstOrDefault().GenderId"></label></a></th>
+                    <th class="col-2"><a asp-for="index" asp-route-sort="@ViewData["DistrictSort"]" asp-route-page="@ViewData["Page"]"><label asp-for="@Model.FirstOrDefault().DistrictId"></label></a></th>
+                    <th class="col-2"><a asp-for="index" asp-route-sort="@ViewData["ReligionSort"]" asp-route-page="@ViewData["Page"]"><label asp-for="@Model.FirstOrDefault().ReligionId"></label></a></th>
+                    <th class="col-2"><a asp-for="index" asp-route-sort="@ViewData["MaritalSatusSort"]" asp-route-page="@ViewData["Page"]"><label asp-for="@Model.FirstOrDefault().MaritalStatusId"></label></a></th>
+                </tr>*@
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var employee in Model)
+                {
+                    <tr>
+                        <td class="col-xs-2">
+                            <a asp-action="details" asp-controller="retired" asp-route-id=@employee.Id>@employee.Salutation</a>
+                        </td>
+                        <td class="col-xs-2">
+                            @employee.PersonnelFileNumber
+                        </td>
+
+                        <td class="col-xs-2">
+@employee.FirstName
+                        </td>
+                        <td class="col-xs-2">
+                            @employee.LastName</td>
+                        <td class="col-xs-2">
+                            @employee.DateOfBirth
+                        </td>
+                        <td class="col-xs-2">
+                            @employee.JobTitle
+                        </td>
+                        <td class="col-xs-2">
+                            @employee.Department
+                        </td>
+                        <td class="col-xs-2">
+                            @employee.AccountNumber
+                        </td>
+                        <td class="col-xs-2">
+                           @employee.HomeAddress
+                        </td>
+                        <td class="col-xs-2">
+                            @employee.District
+                        </td>
+                        <td class="col-xs-2">
+                          @employee.AlternativeMobileNumber
+                        </td>
+                        <td class="col-xs-2">
+                            @employee.Nationality
+                        </td>
+                        <td class="col-xs-2">
+                            @if (employee.IsActive)
+                            {
+                                <span class="label label-success">Is Active</span>
+                            }
+                            else
+                            {
+                                <span class="label label-danger">Not Active</span>
+                            }
+
+                        </td>
+
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="col-12 text-center">
+                        <p class="lead">Please specify the filters and search database</p>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="card-footer">
+        <pager />
+    </div>
+</div>
+
+@section Scripts{
+    <link href="~/lib/datetimepicker/build/jquery.datetimepicker.min.css" rel="stylesheet" />
+    <script src="~/lib/datetimepicker/build/jquery.datetimepicker.full.js"></script>
+    <script>
+        $(function () {
+            var Gender = $('#genderSelect').val();
+            if (Gender != '') {
+                document.getElementById('Gender').value = Gender;
+            }
+            else {
+                document.getElementById('Gender').selectedIndex = 0;
+            }
+            var District = $('#districtSelect').val();
+            if (District != '') {
+                document.getElementById('District').value = District;
+            }
+            else {
+                document.getElementById('District').selectedIndex = 0;
+            }
+
+            var Department = $('#departmentSelect').val();
+            if (Department != '') {
+                document.getElementById('Department').value = Department;
+            }
+            else {
+                document.getElementById('Department').selectedIndex = 0;
+            }
+
+        });
+        $('#collapseOne').removeClass('in');
+        $('#collapseTwo').removeClass('in');
+        $('#collapseThree').removeClass('in');
+        $('#collapseFour').removeClass('in');
+
+        $('#collapseFour').addClass('in');
+    </script>
+}
+

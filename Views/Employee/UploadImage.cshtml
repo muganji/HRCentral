@@ -1,0 +1,63 @@
+﻿@model NewImageView
+
+@{
+    ViewData["Title"] = "Upload Employee Image";
+
+   
+    var managersSelectList = ViewData["ManagerSelectList"] as IEnumerable<SelectListItem>;
+
+    var responseMessage = TempData["Message"] == null ? string.Empty : TempData["Message"].ToString();
+}
+<h3>Change Employee Image</h3>
+<hr style="padding: 0; border-color: blue;">
+@if (!string.IsNullOrWhiteSpace(responseMessage))
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        @Html.Raw(responseMessage)
+    </div>
+}
+<div class="panel-body">
+    
+    <form asp-action="uploadimage" class="form-horizontal" method="post" role="form" enctype="multipart/form-data">
+        <div asp-validation-summary="All" class="alert alert-danger"></div>
+        <br>
+        <div class="panel-group">
+            <div class="panel panel-success">
+                <div class="panel-heading">Employee Image</div>
+                <div class="panel-body">
+                    <br>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2" asp-for="EmployeeID"></label>
+                        <div class="col-xs-4">
+                            <select asp-for="EmployeeID" class="form-control" data-val="true" data-val-required="The Employee field is required." id="EmployeeId" name="EmployeeId" asp-items="@managersSelectList" required>
+                                <option>--- Select Employee ---</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">Passport Image</label>
+                        <div class="col-xs-4 fileupload-container">
+                            <div class="input-group">
+
+                                <input type="file" class="form-control" asp-for="Img" accept=".jpeg,.jpg" required>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-paperclip"></span>
+                                </span>
+                                <span asp-validation-for="Img" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-2 col-xs-10">
+                            <input type="submit" class="btn btn-primary" value="Save" />
+                            <a asp-controller="home" asp-action="index" class="btn btn-default">&laquo;&nbsp;&nbsp;Back to list</a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+    </form>
+        </div>
+    
+
+

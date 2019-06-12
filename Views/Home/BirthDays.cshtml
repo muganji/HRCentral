@@ -1,0 +1,80 @@
+﻿@using System;
+@using System.Collections;
+<div class="modal fade" id="BirthDatAlerts">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <a href="#" class="close" data-dismiss="modal">&times;</a>
+            <h4 id="ModalTitle"></h4>
+
+        </div>
+        <div class="modal-body">
+            <table class="table table-condensed table-striped table-bordered table-responsive ">
+                <thead>
+                    <tr>
+                        <th class="col-xs-2">Salutation</th>
+                        <th class="col-xs-2">PF Number</th>
+                        <th class="col-xs-2">Firstname</th>
+                        <th class="col-xs-2">Lastname</th>
+                        <th class="col-xs-2">BirthDate</th>
+                        <th class="col-xs-2">JobTitle</th>
+                        <th class="col-xs-2">Department</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @functions{
+                        /**/
+
+                        public static bool IsBirthDayInRange(DateTime birthday, DateTime start, DateTime end)
+                        {
+                            DateTime temp = birthday.AddYears(start.Year - birthday.Year);
+                            if (temp < start) temp = temp.AddYears(1);
+                            return birthday <= end && temp >= start && temp <= end;
+                        }
+                    }
+                    @if (Model != null)
+                    {
+                        ArrayList employee = new ArrayList();
+                        DateTime today = DateTime.Today;
+                        int delta = DayOfWeek.Monday - today.DayOfWeek;
+                        DateTime monday = today.AddDays(delta);
+                        DateTime sunday = today.AddDays(6);
+                        foreach (var employees in Model)
+                        {
+                            DateTime dob = DateTime.Parse(employees.DateOfBirth.ToString());
+                            if (IsBirthDayInRange(dob, monday, sunday))
+                            {
+                                employee.Add(employees);
+                            }
+                            <tr>
+                                <td class="col-xs-2">
+                                    @employee[0]
+                                </td>
+                                <td class="col-xs-2">
+                                    @employee[0]
+                                </td>
+
+                                <td class="col-xs-2">
+                                    @employee[0]
+                                </td>
+                                <td class="col-xs-2">
+                                    @employee[0]
+                                </td>
+
+                            </tr>
+                        }
+
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="col-12 text-center">
+                                <p class="lead">No Birthday alerts</p>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

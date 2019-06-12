@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Human Resource Database</title>
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/lib/fontawesome/css/font-awesome.min.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/fontawesome/css/font-awesome.min.css" />
+    </environment>
+</head>
+<body >
+    <div>
+        @*<nav class="navbar navbar-expand-sm navbar-dark  bg-info fixed-top">
+        oncontextmenu="return false;"
+            <a asp-action="index" asp-controller="home" class="navbar-brand mb-0 h1">Contracts Library</a>
+        </nav>*@
+        <br>
+        <div class="col-xs-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    @*<img src="~/log.jpg" alt="Sample Image" style="height:100px;width:150px; text-align:center" class="img-responsive" />*@
+                    <img src="~/Utl_log.png" alt="Sample Image" style="height:100px;width:150px; text-align:center" class="img-responsive" />
+                    @*Welcome, @User.Identity.Name!*@
+                </div>
+            </div>
+            <p class="text-uppercase text-center"><strong>Navigation</strong></p>
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                @if (User.Identity.IsAuthenticated && User.IsInRole("ACL-Developers") || User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Admins") || User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Readers"))
+                {
+                    <div class="panel panel-success">
+
+                        <div class="panel-heading" role="tab" id="headingOne">
+                            <h5 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Search Library</a>
+                            </h5>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+
+                            <ul class="list-group">
+                                <li class="list-group-item"><a asp-action="index" asp-controller="home">Search database</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="beneficiary" asp-action="index">Beneficiary Profile</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="nextofkin" asp-action="index">NextofKin Profile</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="employeeparent" asp-action="index">Parents Profile</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="children" asp-action="index">Children Profile</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="employeeeducation" asp-action="index">Education Profile</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="language" asp-action="index">Language Profile</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="employmentrecord" asp-action="index">Employment Profile</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="employeerepatriation" asp-action="index">Repatriation Profile</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="displinary" asp-action="index">Misconduct Profile</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="crimes" asp-action="index">Criminal Profile</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="drivingpermit" asp-action="index">DrivingPermit Profile</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="passport" asp-action="index">Passport Profile</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="visa" asp-action="index">Visa Profile</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="workpermit" asp-action="index">WorkPermit Profile</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="excel" asp-action="index">Employee Reports</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                }
+                @if (User.Identity.IsAuthenticated && User.IsInRole("ACL-Developers") || User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Admins") || User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Editors"))
+                {
+                    <div class="panel panel-info">
+
+                        <div class="panel-heading" role="tab" id="headingTwo">
+                            <h5 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Employee Portal</a>
+                            </h5>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-action"><a asp-controller="employee" asp-action="add">Add Employee</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="beneficiary" asp-action="add">Add Beneficiary</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="nextofkin" asp-action="add">Add NextofKin</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="employeeparent" asp-action="add">Add Parents</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="children" asp-action="add">Add Children</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="employeeeducation" asp-action="add">Add Education</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="language" asp-action="add">Add Language</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="employmentrecord" asp-action="add">Add Employment</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="employeerepatriation" asp-action="add">Add Repatriation</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="displinary" asp-action="add">Add Misconduct</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="crimes" asp-action="add">Add Crime</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="drivingpermit" asp-action="add">Add DrivingPermit</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="passport" asp-action="add">Add Passport</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="visa" asp-action="add">Add Visa</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="workpermit" asp-action="add">Add WorkPermit</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="employee" asp-action="uploadimage">Update Image</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                }
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("ACL-Developers") || User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Admins"))
+                    {
+                        <div class="panel panel-primary">
+                            <div class="panel-heading" role="tab" id="headingThree">
+                                <h5 class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">Employee Cores</a>
+                                </h5>
+                            </div>
+                            <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                                <ul class="list-group">
+                                    <li class="list-group-item list-group-item-action"><a asp-controller="department" asp-action="index">View Departments</a></li>
+                                    <li class="list-group-item list-group-item-action"><a asp-controller="relationship" asp-action="index">View Relationships</a></li>
+                                    <li class="list-group-item list-group-item-action"><a asp-controller="birthorder" asp-action="index">View BirthOrders</a></li>
+                                    <li class="list-group-item list-group-item-action"><a asp-controller="bank" asp-action="index">View Banks</a></li>
+                                    <li class="list-group-item list-group-item-action"><a asp-controller="qualification" asp-action="index">View Qualifications</a></li>
+                                    <li class="list-group-item list-group-item-action"><a asp-controller="contracts" asp-action="index">Contract Durations</a></li>
+                                    <li class="list-group-item list-group-item-action"><a asp-controller="medicalcover" asp-action="index">View MedicalCovers</a></li>
+                                    <li class="list-group-item list-group-item-action"><a asp-controller="district" asp-action="index">View Districts</a></li>
+                                    <li class="list-group-item list-group-item-action"><a asp-controller="email" asp-action="index">Notification Emails</a></li>
+                                    <li class="list-group-item list-group-item-action"><a asp-controller="nationality" asp-action="index">View Nationalities</a></li>
+                                    <li class="list-group-item list-group-item-action"><a asp-controller="leavedays" asp-action="index">View LeaveDays</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                    <div class="panel panel-danger">
+                        <div class="panel-heading" role="tab" id="headingFour">
+                            <h5 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">Exited Employees</a>
+                            </h5>
+                        </div>
+                        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-action"><a asp-action="index" asp-controller="retired">Search database</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel panel-warning">
+                        <div class="panel-heading" role="tab" id="headingFive">
+                            <h5 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseThree">Contracts Management</a>
+                            </h5>
+                        </div>
+                        <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-action"><a asp-controller="employeecontracts" asp-action="add">Add Contract</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="employeecontracts" asp-action="index">Employee Contracts</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="contractrenew" asp-action="index">Renew Contract</a></li>
+                                <li class="list-group-item list-group-item-action"><a asp-controller="contractterminate" asp-action="index">Terminate Contract</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingSix">
+                            <h5 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">Leave Management</a>
+                            </h5>
+                        </div>
+                        <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+                            <ul class="list-group">
+                                <li class="list-group-item list-group-item-action"><a asp-controller="employeeleave" asp-action="apply">Apply Leave</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="col-xs-10">
+            <nav class="navbar navbar-dark bg-primary navbar-fixed-top">
+                @*navbar   bg-info*@
+
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <h3 class="nav navbar-text text-white" style="padding-left: 0px;">Human Resource Central - MIS</h3>
+                        @*<a asp-area="" asp-controller="Home" asp-action="Index" class="nav navbar-text text-white">Employee Database</a>*@
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <p class="nav navbar-text navbar-right text-white" style="padding-right: 10px;">Welcome, @User.Identity.Name!</p>
+                    </div>
+                </div>
+            </nav>
+            <div class="container-fluid body-content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid text-center text-primary" style="clear:both;">
+        <hr />
+        <footer>
+            @*<h3>&copy; @DateTime.Now.Year Company Name Limited.</h3>*@
+            <h3>&copy; @DateTime.Now.Year Uganda Telecom Limited.</h3>
+
+        </footer>
+    </div>
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

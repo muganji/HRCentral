@@ -1,0 +1,86 @@
+﻿@model EmploymentRecordDetailViewModel
+@{
+    ViewData["Title"] = "Employment Details";
+    var employeeSelectList = ViewData["Employees"] as IEnumerable<SelectListItem>;
+    var responseMessage = TempData["Message"] == null ? string.Empty : TempData["Message"].ToString();
+}
+<h3>View Employment Records</h3>
+<hr style="padding: 0; border-color: blue;">
+@if (!string.IsNullOrWhiteSpace(responseMessage))
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        @Html.Raw(responseMessage)
+    </div>
+}
+
+    <div class="panel-body">
+        <form asp-action="details" asp-controller="employeechildren" class="form-horizontal" method="post" role="form">
+            <div asp-validation-summary="All" class="alert alert-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <br>
+
+            <div class="panel-group">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Employment Details</div>
+                    <div class="panel-body">
+                        <br>
+                        <div class="form-group">
+                            <label asp-for="EmployeeID" class="control-label col-xs-4"></label>
+                            <div class="col-xs-4">
+                                <select asp-for="EmployeeID" class="form-control" asp-items="@employeeSelectList" disabled>
+                                    <option>--- Select Employee ---</option>
+                                </select>
+                            </div>
+                            </div>
+                        <div class="form-group">
+                            <label asp-for="CompanyName" class="control-label col-xs-4"></label>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" asp-for="CompanyName" autocomplete="off" disabled/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Duration" class="control-label col-xs-4"></label>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" asp-for="Duration" autocomplete="off" disabled/>
+                            </div>
+                            </div>
+                        <div class="form-group">
+                            <label asp-for="PositionHeld" class="control-label col-xs-4"></label>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" asp-for="PositionHeld" autocomplete="off" disabled/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-offset-4 col-xs-10">
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Admins"))
+                                {
+                                    <input type="submit" class="btn btn-primary" value="Save" />
+                                }
+                                    <a asp-action="index" class="btn btn-default">&laquo;&nbsp;&nbsp;Back to list</a>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </form>
+    </div>
+
+@section Scripts{
+    <script>
+         $('#collapseOne').removeClass('in');
+                                $('#collapseTwo').removeClass('in');
+                                $('#collapseThree').removeClass('in');
+        $('#collapseFour').removeClass('in');
+        $('#collapseFive').removeClass('in');
+         $('#collapseSix').removeClass('in');
+
+        $('#collapseOne').addClass('in');
+    </script>
+}
+
+
+
+

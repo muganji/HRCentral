@@ -1,0 +1,83 @@
+﻿@model NewVisaViewModel
+@{
+    ViewData["Title"] = "Add Employee Visa";
+    var employees = ViewData["Employees"] as IEnumerable<SelectListItem>;
+    var responseMessage = TempData["Message"] == null ? string.Empty : TempData["Message"].ToString();
+}
+<h3>Add Employee Visa</h3>
+<hr style="padding: 0; border-color: blue;">
+@if (!string.IsNullOrWhiteSpace(responseMessage))
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        @Html.Raw(responseMessage)
+    </div>
+}
+<div class="panel-body">
+    <form asp-action="add" class="form-horizontal" method="post" role="form">
+        <div asp-validation-summary="All" class="alert alert-danger"></div>
+        <br>
+        <div class="panel-group">
+            <div class="panel panel-success">
+                <div class="panel-heading">Employee Visa Details</div>
+                <div class="panel-body">
+                    <br>
+                    <div class="form-group">
+                        <label asp-for="EmployeeId" class="control-label col-xs-4 required"></label>
+                        <div class="col-xs-4">
+                            <select asp-for="EmployeeId" class="form-control" data-val="true" data-val-required="The Employee field is required." id="EmployeeId" name="EmployeeId" asp-items="@employees" required>
+                                <option>--- Select Employee ---</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="VisaNumber" class="control-label col-xs-4 required"></label>
+                        <div class="col-xs-4">
+                            <input asp-for="VisaNumber" type="text" class="form-control" placeholder="Visa number" data-val="true" data-val-required="VisaNumber field is required." id="VisaNumber" name="VisaNumber" required autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ExpiryDate" class="control-label col-xs-4"></label>
+                        <div class="col-xs-4">
+                            <div class="input-group date">
+                                <input asp-for="ExpiryDate" type="text" id="datetimepicker2" class="form-control" placeholder="Visa expiry date" data-val="true" data-val-required="The Expiry Date field is required." id="ExpiryDate" name="ExpiryDate" onkeypress="return false;" required autocomplete="off" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-4 col-xs-10">
+                            <input type="submit" class="btn btn-primary" value="Save" />
+                            <a asp-action="index" class="btn btn-default">&laquo;&nbsp;&nbsp;Back to list</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <link href="~/lib/datetimepicker/build/jquery.datetimepicker.min.css" rel="stylesheet" />
+    <script src="~/lib/datetimepicker/build/jquery.datetimepicker.full.js"></script>
+    <script>
+        $(function () {
+            $('#datetimepicker2').datetimepicker({
+                format: 'Y-m-d',
+                timepicker: false
+               
+            });
+        });
+    </script>
+    <script>
+        $('#collapseOne').removeClass('in');
+                                $('#collapseTwo').removeClass('in');
+                                $('#collapseThree').removeClass('in');
+        $('#collapseFour').removeClass('in');
+        $('#collapseFive').removeClass('in');
+         $('#collapseSix').removeClass('in');
+
+        $('#collapseTwo').addClass('in');
+    </script>
+}

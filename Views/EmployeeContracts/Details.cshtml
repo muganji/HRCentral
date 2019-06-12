@@ -1,0 +1,200 @@
+﻿@model EmployeeContractsDetailViewModel
+@{
+    ViewData["Title"] = "Employee Contracts";
+    var employeeSelectList = ViewData["EmployeeSelectList"] as IEnumerable<SelectListItem>;
+    var contractSelectList = ViewData["ContractsSelectList"] as IEnumerable<SelectListItem>;
+    var medicalcoverSelectList = ViewData["MedicalCoverSelectList"] as IEnumerable<SelectListItem>;
+    var responseMessage = TempData["Message"] == null ? string.Empty : TempData["Message"].ToString();
+}
+    <h3>Update Employee Contract Details</h3>
+<hr style="padding: 0; border-color: blue;">
+@if (!string.IsNullOrWhiteSpace(responseMessage))
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        @Html.Raw(responseMessage)
+    </div>
+}
+<div class="panel-body">
+    <form asp-action="details" asp-controller="employeecontracts" class="form-horizontal" method="post" role="form">
+        <div asp-validation-summary="All" class="alert alert-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <br>
+        <div class="panel-group">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Employee Contract Details</div>
+                <div class="panel-body">
+                    <br>
+                    <div class="form-group">
+                        <label asp-for="EmployeeId" class="control-label col-xs-2"></label>
+                        <div class="col-xs-4">
+                            <select asp-for="EmployeeId" class="form-control" asp-items="@employeeSelectList">
+                                <option>--- Select Employee ---</option>
+                            </select>
+                        </div>
+                        <label asp-for="ContactID" class="control-label col-xs-2"></label>
+                        <div class="col-xs-4">
+                            <select asp-for="ContactID" class="form-control" asp-items="@contractSelectList">
+                                <option>--- Select Contract ---</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="WebAccess" class="control-label col-xs-2"></label>
+                        <div class="col-xs-4">
+                            <select class="form-control" asp-for="WebAccess">
+                                <option> --- Select WebAccess Status ---</option>
+                                <option value="True">True</option>
+                                <option value="False">False</option>
+                            </select>
+                        </div>
+                        <label asp-for="MedicalCoverId" class="control-label col-xs-2"></label>
+                        <div class="col-xs-4">
+                            <select asp-for="MedicalCoverId" class="form-control" asp-items="@medicalcoverSelectList">
+                                <option>--- Select MedicalCover ---</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="StartDate" class="control-label col-xs-2"></label>
+                        <div class="col-xs-4">
+                            <div class="input-group date">
+                                <input type="text" class="form-control" asp-for="StartDate" onkeypress="return false;"  id="datetimepicker" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <label asp-for="TerminationDate" class="control-label col-xs-2"></label>
+                        <div class="col-xs-4">
+                            <div class="input-group date">
+                                <input type="text" class="form-control" asp-for="TerminationDate" onkeypress="return false;" id="datetimepicker1" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+
+                        <label asp-for="Mail" class="control-label col-xs-2"></label>
+                        <div class="col-xs-4">
+                            <select class="form-control" asp-for="Mail">
+                                <option> --- Select Mail Status ---</option>
+                                <option value="True">True</option>
+                                <option value="False">False</option>
+                            </select>
+                        </div>
+                        <label asp-for="Internet" class="control-label col-xs-2"></label>
+                        <div class="col-xs-4">
+                            <select class="form-control" asp-for="Internet">
+                                <option> --- Select Internet Status ---</option>
+                                <option value="True">True</option>
+                                <option value="False">False</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Ability" class="control-label col-xs-2"></label>
+                        <div class="col-xs-4">
+                            <select class="form-control" asp-for="Ability">
+                                <option> --- Select Ability Status ---</option>
+                                <option value="True">True</option>
+                                <option value="False">False</option>
+                            </select>
+                        </div>
+                        <label asp-for="DailUpAccess" class="control-label col-xs-2"></label>
+                        <div class="col-xs-4">
+                            <select class="form-control" asp-for="DailUpAccess">
+                                <option> --- Select DailUp Status ---</option>
+                                <option value="True">True</option>
+                                <option value="False">False</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="CDRInterConnection" class="control-label col-xs-2"></label>
+                        <div class="col-xs-4">
+                            <select class="form-control" asp-for="CDRInterConnection">
+                                <option> --- Select CDR Status ---</option>
+                                <option value="True">True</option>
+                                <option value="False">False</option>
+                            </select>
+                        </div>
+                        <label asp-for="Finance" class="control-label col-xs-2"></label>
+                        <div class="col-xs-4">
+                            <select class="form-control" asp-for="Finance">
+                                <option> --- Select Finance Status ---</option>
+                                <option value="True">True</option>
+                                <option value="False">False</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ContractStatus" class="control-label col-xs-2"></label>
+                        <div class="col-xs-4">
+                            <select class="form-control" asp-for="ContractStatus">
+                                <option> --- Select Contract Status ---</option>
+                                <option value="OnGoing">OnGoing</option>
+                                <option value="Terminated">Terminated</option>
+                                <option value="Renewed">Renewed</option>
+                                <option value="Permanent">Permanent</option>
+                                <option value="Temporary">Temporary</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-xs-offset-4 col-xs-10">
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Admins"))
+                            {
+                                <input type="submit" class="btn btn-primary" value="Save" />
+                            }
+                                <a asp-action="index" class="btn btn-default">&laquo;&nbsp;&nbsp;Back to list</a>
+                            </div>
+                    </div>
+
+</div>
+                </div>
+            </div>
+
+    </form>
+                </div>
+          
+
+        @section Scripts{
+            <link href="~/lib/datetimepicker/build/jquery.datetimepicker.min.css" rel="stylesheet" />
+            <script src="~/lib/datetimepicker/build/jquery.datetimepicker.full.js"></script>
+            <script>
+                $('#collapseOne').removeClass('in');
+                $('#collapseTwo').removeClass('in');
+                $('#collapseThree').removeClass('in');
+                $('#collapseFour').removeClass('in');
+                $('#collapseFive').removeClass('in');
+                $('#collapseSix').removeClass('in');
+
+                $('#collapseFive').addClass('in');
+            </script>
+            <script>
+                $(function () {
+                    $('#datetimepicker').datetimepicker({
+                        format: 'Y-m-d',
+                        timepicker: false
+
+                    });
+                });
+                $(function () {
+                    $('#datetimepicker1').datetimepicker({
+                        format: 'Y-m-d',
+                        timepicker: false
+
+                    });
+                });
+            </script>
+        }
+
+
+
+
+

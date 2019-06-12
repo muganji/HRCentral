@@ -1,0 +1,119 @@
+﻿@model EmployeeParentsDetailViewModel
+@{
+    ViewData["Title"] = "Parent Details";
+    var employeeSelectList = ViewData["Employees"] as IEnumerable<SelectListItem>;
+    var nationalitySelectList = ViewData["Nationality"] as IEnumerable<SelectListItem>;
+    var districtSelectList = ViewData["District"] as IEnumerable<SelectListItem>;
+    var responseMessage = TempData["Message"] == null ? string.Empty : TempData["Message"].ToString();
+}
+<h3>View Parent Details</h3>
+<hr style="padding: 0; border-color: blue;">
+@if (!string.IsNullOrWhiteSpace(responseMessage))
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        @Html.Raw(responseMessage)
+    </div>
+}
+
+    <div class="panel-body">
+        <form asp-action="details" asp-controller="employeeparent" class="form-horizontal" method="post" role="form">
+            <div asp-validation-summary="All" class="alert alert-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <br>
+
+            <div class="panel-group">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Parent Details</div>
+                    <div class="panel-body">
+                        <br>
+                        <div class="form-group">
+                            <label asp-for="EmployeeId" class="control-label col-xs-4"></label>
+                            <div class="col-xs-4">
+                                <select asp-for="EmployeeId" class="form-control" asp-items="@employeeSelectList" disabled>
+                                    <option>--- Select Employee ---</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="NationalityId" class="control-label col-xs-4"></label>
+                            <div class="col-xs-4">
+                                <select asp-for="NationalityId" class="form-control" asp-items="@nationalitySelectList" disabled>
+                                    <option>--- Select Nationality ---</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label col-xs-4"></label>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" asp-for="Name" autocomplete="off" disabled/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Residence" class="control-label col-xs-4"></label>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" asp-for="Residence" autocomplete="off" disabled/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Alive" class="control-label col-xs-4"></label>
+                            <div class="col-xs-4">
+                                <select class="form-control" asp-for="Alive" disabled>
+                                    <option> --- Select Parent Status ---</option>
+                                    <option value="True">True</option>
+                                    <option value="False">False</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ContactInfo" class="control-label col-xs-4"></label>
+                            <div class="col-xs-4">
+                                <input type="text" class="form-control" asp-for="ContactInfo" autocomplete="off" disabled/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="HomeDistrictId" class="control-label col-xs-4"></label>
+                            <div class="col-xs-4">
+                                <select asp-for="HomeDistrictId" class="form-control" asp-items="@districtSelectList" disabled>
+                                    <option>--- Select HomeDistrict ---</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DistrictResidenceId" class="control-label col-xs-4"></label>
+                            <div class="col-xs-4">
+                                <select asp-for="DistrictResidenceId" class="form-control" asp-items="@districtSelectList" disabled>
+                                    <option>--- Select ResidenceDistrict ---</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-offset-4 col-xs-10">
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Admins"))
+                                {
+                                    <input type="submit" class="btn btn-primary" value="Save" />
+                                }
+                                    <a asp-action="index" class="btn btn-default">&laquo;&nbsp;&nbsp;Back to list</a>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </form>
+    </div>
+
+@section Scripts{
+    <script>
+                 $('#collapseOne').removeClass('in');
+                                $('#collapseTwo').removeClass('in');
+                                $('#collapseThree').removeClass('in');
+        $('#collapseFour').removeClass('in');
+        $('#collapseFive').removeClass('in');
+         $('#collapseSix').removeClass('in');
+
+        $('#collapseOne').addClass('in');
+    </script>
+}

@@ -1,0 +1,390 @@
+﻿@model EmployeeDetailViewModel
+@{
+    ViewData["Title"] = "Details";
+    
+    var nationalitiesSelectList = ViewData["NationalitySelectList"] as IEnumerable<SelectListItem>;
+    var managersSelectList = ViewData["ManagerSelectList"] as IEnumerable<SelectListItem>;
+    
+    
+    var districtsSelectList = ViewData["DistrictSelectList"] as IEnumerable<SelectListItem>;
+    var banksSelectList = ViewData["BankSelectList"] as IEnumerable<SelectListItem>;
+    var departmentList = ViewData["DepartmentSelectList"] as IEnumerable<SelectListItem>;
+    //var relationshipList = ViewData["RelationshipSelectList"] as IEnumerable<SelectListItem>;
+    var responseMessage = TempData["Message"] == null ? string.Empty : TempData["Message"].ToString();
+}
+<h3>Update Employee Details</h3>
+<hr style="padding: 0; border-color: blue;">
+@if (!string.IsNullOrWhiteSpace(responseMessage))
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        @Html.Raw(responseMessage)
+    </div>
+}
+
+    <div class="panel-body">
+        <form asp-action="details" asp-controller="employee" class="form-horizontal" method="post" role="form" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="alert alert-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="well well-sm">
+                <div class="panel-group">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">Employee BioData Details</div>
+                        <div class="panel-body">
+                            <br>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-xs-3" style="width:1000px;text-align: center;">
+                                        <img src="@Url.Action("employee", "image", new { id = Model.Id})" class="img-thumbnail img-responsive" alt=@Model.PFNumber width="304" height="100" /><br><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" asp-for="Salutation"></label>
+                                <div class="col-xs-4">
+                                    <select class="form-control" asp-for="Salutation">
+                                        <option> --- Select Employee Salutation ---</option>
+                                        <option value="Mr.">Mr.</option>
+                                        <option value="Ms.">Ms.</option>
+                                        <option value="Mrs.">Mrs.</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <label class="control-label col-xs-4" asp-for="FirstName"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="FirstName" autocomplete="off" onkeypress="return false;" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" asp-for="LastName"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="LastName" autocomplete="off" onkeypress="return false;" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" asp-for="MaidenName"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="MaidenName" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4" asp-for="MiddleName"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="MiddleName" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DateOfBirth" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    
+                                        <input asp-for="DateOfBirth" type="text" class="form-control" onkeypress="return false;" autocomplete="off" />
+
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Address" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" asp-for="Address" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DistrictBirthId" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <select asp-for="DistrictBirthId" class="form-control" asp-items="@districtsSelectList" onkeypress="return false;">
+                                        <option>--- Select District ---</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Religion" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <select asp-for="Religion" class="form-control" id="ReligionSelect">
+                                        <option>--- Select Religion ---</option>
+                                        <option value="Christian">Christian</option>
+                                        <option value="Muslems">Muslims</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="MaritalStatus" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <select asp-for="MaritalStatus" class="form-control" id="MaritalStatus">
+                                        <option>--- Select Marital Status ---</option>
+                                        <option value="Single">Single</option>
+                                        <option value="Married">Married</option>
+                                        <option value="Separated">Separated</option>
+                                        <option value="Divorced">Divorced</option>
+                                        <option value="Widowed">Widowed</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Gender" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <select asp-for="Gender" class="form-control" id="genderId">
+                                        <option>--- Select Gender ---</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="NationalityId" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <select asp-for="NationalityId" class="form-control" asp-items="@nationalitiesSelectList" onkeypress="return false;">
+                                        <option>--- Select Nationality ---</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DistrictResidenceId" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <select asp-for="DistrictResidenceId" class="form-control" data-val="true" data-val-required="The District field is required." asp-items="@districtsSelectList">
+                                        <option>--- Select District ---</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <hr>
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Employee Contact Details</div>
+                        <div class="panel-body">
+                            <br>
+                            <div class="form-group">
+                                <label asp-for="PersonalMobileNumber" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="PersonalMobileNumber" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="WorkMobileNumber" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="WorkMobileNumber" autocomplete="off" />
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="AlternativeMobileNumber" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="AlternativeMobileNumber" autocomplete="off" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="panel-group">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">Spouse Data Details</div>
+                        <div class="panel-body">
+                            <br>
+                            <div class="form-group">
+                                <label asp-for="SpouseName" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <input asp-for="SpouseName" type="text" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SpouseDateOfBirth" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                  
+                                        <input asp-for="SpouseDateOfBirth" type="text" class="form-control" autocomplete="off" />
+
+                                 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SpouseContactAddress" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <input asp-for="SpouseContactAddress" type="text" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SpouseTelephone" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <input asp-for="SpouseTelephone" type="text" class="form-control" autocomplete="off" />
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Contact Person At Residence</div>
+                        <div class="panel-body">
+                            <br>
+                            <div class="form-group">
+                                <label asp-for="ContactPerson" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="ContactPerson" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ContactPersonTelephone" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="ContactPersonTelephone" autocomplete="off" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="panel-group">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">Job Data Details</div>
+                        <div class="panel-body">
+                            <br>
+                            <div class="form-group">
+                                <label asp-for="JobTitle" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <input asp-for="JobTitle" type="text" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SupervisorId" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <select asp-for="SupervisorId" class="form-control" asp-items="@managersSelectList">
+                                        <option>--- Select Supervisor ---</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DepartmentId" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <select asp-for="DepartmentId" class="form-control" asp-items="@departmentList">
+                                        <option>--- Select Department ---</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="IsActive" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <select class="form-control" asp-for="IsActive">
+                                        <option> --- Select Employee Status ---</option>
+                                        <option value="True">True</option>
+                                        <option value="False">False</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="PFNumber" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <input asp-for="PFNumber" type="text" class="form-control" autocomplete="off" onkeypress="return false;" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DateOfJoin" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                   
+                                        <input asp-for="DateOfJoin" type="text" class="form-control" onkeypress="return false;" autocomplete="off" />
+
+                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Employee Essentials</div>
+                        <div class="panel-body">
+                            <br>
+                            <div class="form-group">
+                                <label asp-for="TINNumber" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <input asp-for="TINNumber" type="text" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="NSSFNumber" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <input asp-for="NSSFNumber" type="text" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="NINNumber" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <input asp-for="NINNumber" type="text" class="form-control" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="panel-group">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">Employee Bank Details</div>
+                        <div class="panel-body">
+                            <br>
+                            <div class="form-group">
+                                <label asp-for="BankId" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <select class="form-control" asp-for="BankId" asp-items=@banksSelectList>
+                                        <option>--- select bank ---</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="BankBranch" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="BankBranch" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <label asp-for="BankAccountNumber" class="control-label col-xs-4"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="BankAccountNumber" autocomplete="off" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-xs-offset-4 col-xs-10">
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Admins"))
+                        {
+                            <input type="submit" class="btn btn-primary" value="Save" />
+                        }
+                            <a asp-controller="home" asp-action="index" class="btn btn-default">&laquo;&nbsp;&nbsp;Back to list</a>
+                        </div>
+                </div>
+            </div>
+        </form>
+        
+    </div>
+@section Scripts{
+    <link href="~/lib/datetimepicker/build/jquery.datetimepicker.min.css" rel="stylesheet" />
+    <script src="~/lib/datetimepicker/build/jquery.datetimepicker.full.js"></script>
+    <script>
+        
+         $('#collapseOne').removeClass('in');
+                                $('#collapseTwo').removeClass('in');
+                                $('#collapseThree').removeClass('in');
+        $('#collapseFour').removeClass('in');
+        $('#collapseFive').removeClass('in');
+         $('#collapseSix').removeClass('in');
+
+        $('#collapseOne').addClass('in');
+        });
+    </script>
+}

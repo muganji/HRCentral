@@ -1,0 +1,300 @@
+﻿@model EmployeeDetailViewModel
+@{
+    ViewData["Title"] = "Details";
+
+    var nationalitiesSelectList = ViewData["NationalitySelectList"] as IEnumerable<SelectListItem>;
+    var managersSelectList = ViewData["ManagerSelectList"] as IEnumerable<SelectListItem>;
+
+
+    var districtsSelectList = ViewData["DistrictSelectList"] as IEnumerable<SelectListItem>;
+    var banksSelectList = ViewData["BankSelectList"] as IEnumerable<SelectListItem>;
+    var departmentList = ViewData["DepartmentSelectList"] as IEnumerable<SelectListItem>;
+    //var relationshipList = ViewData["RelationshipSelectList"] as IEnumerable<SelectListItem>;
+    var responseMessage = TempData["Message"] == null ? string.Empty : TempData["Message"].ToString();
+}
+<h3>Exited Employee Details</h3>
+<hr style="padding: 0; border-color: blue;">
+@if (!string.IsNullOrWhiteSpace(responseMessage))
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        @Html.Raw(responseMessage)
+    </div>
+}
+
+<div class="panel-body">
+    <form asp-action="details" asp-controller="retired" class="form-horizontal" method="post" role="form" enctype="multipart/form-data">
+        <div asp-validation-summary="All" class="alert alert-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <br>
+        @*<div class="well well-sm">
+            <div class="row">
+                <div class="col-xs-3" style="width:900px;text-align: center;">
+                    <p><strong>Employee Image</strong></p>
+                    <img src="@Url.Action("employee", "image", new { id = Model.Id})" class="img-thumbnail img-responsive" alt=@Model.PFNumber width="304" height="100" /><br><br>
+                </div>
+            </div>
+        </div>
+        <hr>*@
+        <div class="well well-sm">
+            <div class="panel-group">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Employee BioData Details</div>
+                    <div class="panel-body bg-danger">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-3" style="width:1000px;text-align: center;">
+                                    <img src="@Url.Action("employee", "image", new { id = Model.Id})" class="img-thumbnail img-responsive" alt=@Model.PFNumber width="304" height="100" /><br><br>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-2" asp-for="Salutation"></label>
+                                <div class="col-xs-4">
+                                    <select class="form-control" asp-for="Salutation" disabled>
+                                        <option> --- Select Employee Salutation ---</option>
+                                        <option value="Mr.">Mr.</option>
+                                        <option value="Ms.">Ms.</option>
+                                        <option value="Mrs.">Mrs.</option>
+                                    </select>
+                                </div>
+                                <label class="control-label col-xs-2" asp-for="FirstName"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="FirstName" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-2" asp-for="LastName"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="LastName" disabled />
+                                </div>
+                                <label class="control-label col-xs-2" asp-for="MaidenName"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="MaidenName" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-2" asp-for="MiddleName"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="MiddleName" disabled />
+                                </div>
+                                <label asp-for="DateOfBirth" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <div class="input-group date">
+                                        <input asp-for="DateOfBirth" type="text" class="form-control" disabled />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Address" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" asp-for="Address" class="form-control" disabled />
+                                </div>
+                                <label asp-for="DistrictBirthId" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <select asp-for="DistrictBirthId" class="form-control" asp-items="@districtsSelectList" disabled>
+                                        <option>--- Select District ---</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Religion" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <select asp-for="Religion" class="form-control" id="ReligionSelect" disabled>
+                                        <option>--- Select Religion ---</option>
+                                        <option value="Christians">Christians</option>
+                                        <option value="Muslems">Muslims</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </div>
+                                <label asp-for="MaritalStatus" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <select asp-for="MaritalStatus" class="form-control" id="MaritalStatus" disabled>
+                                        <option>--- Select Marital Status ---</option>
+                                        <option value="Single">Single</option>
+                                        <option value="Married">Married</option>
+                                        <option value="Separated">Separated</option>
+                                        <option value="Divorced">Divorced</option>
+                                        <option value="Widowed">Widowed</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Gender" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <select asp-for="Gender" class="form-control" id="genderId" disabled>
+                                        <option>--- Select Gender ---</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+
+                                    </select>
+                                </div>
+                                <label asp-for="NationalityId" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <select asp-for="NationalityId" class="form-control" asp-items="@nationalitiesSelectList" disabled>
+                                        <option>--- Select Nationality ---</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DistrictResidenceId" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <select asp-for="DistrictResidenceId" class="form-control" disabled asp-items="@districtsSelectList">
+                                        <option>--- Select District ---</option>
+                                    </select>
+                                </div>
+                                <label asp-for="PersonalMobileNumber" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="PersonalMobileNumber" disabled />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="WorkMobileNumber" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="WorkMobileNumber" disabled />
+
+                                </div>
+                                <label asp-for="AlternativeMobileNumber" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="AlternativeMobileNumber" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SpouseName" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input asp-for="SpouseName" type="text" class="form-control" disabled />
+                                </div>
+                                <label asp-for="SpouseDateOfBirth" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <div class="input-group date">
+                                        <input asp-for="SpouseDateOfBirth" type="text" class="form-control" autocomplete="off" disabled />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="SpouseContactAddress" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input asp-for="SpouseContactAddress" type="text" class="form-control" disabled />
+                                </div>
+                                <label asp-for="SpouseTelephone" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input asp-for="SpouseTelephone" type="text" class="form-control" disabled />
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ContactPerson" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="ContactPerson" disabled />
+                                </div>
+
+                                <label asp-for="ContactPersonTelephone" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="ContactPersonTelephone" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="JobTitle" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input asp-for="JobTitle" type="text" class="form-control" disabled />
+                                </div>
+                                <label asp-for="SupervisorId" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <select asp-for="SupervisorId" class="form-control" asp-items="@managersSelectList" disabled>
+                                        <option>--- Select Supervisor ---</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="DepartmentId" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <select asp-for="DepartmentId" class="form-control" asp-items="@departmentList" disabled>
+                                        <option>--- Select Department ---</option>
+                                    </select>
+                                </div>
+                                <label asp-for="IsActive" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <select class="form-control" asp-for="IsActive" disabled>
+                                        <option> --- Select Employee Status ---</option>
+                                        <option value="True">True</option>
+                                        <option value="False">False</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="PFNumber" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input asp-for="PFNumber" type="text" class="form-control" disabled />
+                                </div>
+                                <label asp-for="NINNumber" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input asp-for="NINNumber" type="text" class="form-control" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="TINNumber" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input asp-for="TINNumber" type="text" class="form-control" disabled />
+                                </div>
+
+                                <label asp-for="NSSFNumber" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input asp-for="NSSFNumber" type="text" class="form-control" disabled />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="BankId" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <select class="form-control" asp-for="BankId" asp-items="@banksSelectList" disabled></select>
+                                </div>
+
+                                <label asp-for="BankBranch" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="BankBranch" disabled />
+                                </div>
+                            </div>
+                            @*<div class="form-group">
+
+                                <label asp-for="BankAccountNumber" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="BankAccountNumber" disabled />
+                                </div>
+                                <label asp-for="RelationshipId" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <select class="form-control" asp-for="RelationshipId" asp-items=@relationshipList disabled></select>
+                                </div>
+
+                            </div>*@
+                            @*<div class="form-group">
+                                <label asp-for="BeneficiaryName" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <input type="text" class="form-control" asp-for="BeneficiaryName" disabled />
+                                </div>
+
+                                <label asp-for="BeneficiaryContact" class="control-label col-xs-2"></label>
+                                <div class="col-xs-4">
+                                    <textarea rows="1" class="form-control" asp-for="BeneficiaryContact" disabled></textarea>
+
+                                </div>
+                            </div>*@
+                        </div>
+                    </div>
+
+            </div>
+            <div class="form-group">
+                <div class="col-xs-offset-4 col-xs-10">
+                    <a asp-controller="retired" asp-action="index" class="btn btn-danger">&laquo;&nbsp;&nbsp;Back to list</a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

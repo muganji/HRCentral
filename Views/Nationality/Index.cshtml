@@ -1,0 +1,52 @@
+﻿@model IPagedList<NationalityListViewModel>
+@{
+    ViewData["Title"] = "Employee Nationality";
+}
+<h3>Ntaionalities</h3>
+<hr style="padding: 0; border-color: indigo;">
+<a asp-action="add" class="btn btn-danger">Add Nationality</a><br><br>
+                                                                  <div class="panel panel-success">
+                                                                      <table class="table table-condensed table-striped table-bordered table-responsive">
+                                                                          <thead>
+                                                                              <tr>
+                                                                                  <th class="col-12">Description</th>
+                                                                                  <th class="col-12">Date Added</th>
+                                                                                  <th class="col-12">Date Modified</th>
+                                                                                  <th class="col-12">CreatedBy</th>
+                                                                                  <th class="col-12">Action</th>
+                                                                              </tr>
+                                                                          </thead>
+                                                                          <tbody>
+                                                                              @if (Model != null)
+                                                                              {
+                                                                                  foreach (var nationality in Model)
+                                                                                  {
+                                                                                      <tr>
+                                                                                          <td class="col-12"><a asp-action="details" asp-route-id=@nationality.Id>@nationality.Description</a></td>
+                                                                                          <td class="col-12">@nationality.DateAdded</td>
+                                                                                          <td class="col-12">@nationality.DateModified</td>
+                                                                                          <td class="col-12">@nationality.CreatedBy</td>
+                                                                                          @if (User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Deletors") || User.Identity.IsAuthenticated && User.IsInRole("ACL-Developers") || User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Admins"))
+                                                                                          {
+                                                                                              <td> <a asp-action="delete" asp-route-id="@nationality.Id">Delete</a></td>
+                                                                                          }
+                                                                                      </tr>
+                                                                                  }
+                                                                              }
+                                                                          </tbody>
+                                                                      </table>
+                                                                      <div class="card-footer">
+                                                                          <pager />
+                                                                      </div>
+                                                                  </div>
+
+@section Scripts{
+    <script>
+        $('#collapseOne').removeClass('in');
+        $('#collapseTwo').removeClass('in');
+        $('#collapseThree').removeClass('in');
+        $('#collapseFour').removeClass('in');
+
+        $('#collapseThree').addClass('in');
+    </script>
+}

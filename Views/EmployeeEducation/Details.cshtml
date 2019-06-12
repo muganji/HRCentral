@@ -1,0 +1,116 @@
+﻿@model EducationDetailViewModel
+@{
+    ViewData["Title"] = "Details";
+    var responseMessage = TempData["Message"] == null ? string.Empty : TempData["Message"].ToString();
+    var employees = ViewData["Employees"] as IEnumerable<SelectListItem>;
+    var qualifications = ViewData["Qualifications"] as IEnumerable<SelectListItem>;
+}
+<h3>View Education Details</h3>
+<hr style="padding: 0; border-color: blue;">
+@if (!string.IsNullOrWhiteSpace(responseMessage))
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        @Html.Raw(responseMessage)
+    </div>
+}
+
+<div class="panel panel-success">
+    <div class="panel-heading">Education Details</div>
+    <div class="panel-body">
+        <form asp-action="details" class="form-horizontal" method="post" role="form">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="All" class="alert alert-danger"></div>
+            <div class="well well-sm">
+                <br>
+                <div class="form-group">
+                    <label class="control-label col-xs-4" asp-for="EmployeeId"></label>
+                    <div class="col-xs-4">
+                        <select class="form-control" asp-for="EmployeeId" asp-items="@employees" disabled>
+                            <option>--- Select Employee ---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4" asp-for="QualificationId"></label>
+                    <div class="col-xs-4">
+                        <select class="form-control" asp-for="QualificationId" asp-items="@qualifications" disabled>
+                            <option>--- Select Qualification ---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4" asp-for="QualificationTitle"></label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" asp-for="QualificationTitle" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4" asp-for="Status"></label>
+                    <div class="col-xs-4">
+                        <select class="form-control" asp-for="Status" disabled>
+                            <option>--- Select Education Status ---</option>
+                            <option value="True">True</option>
+                            <option value="False">False</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4" asp-for="Institution"></label>
+                    <div class="col-xs-4">
+                        <input type="text" class="form-control" asp-for="Institution" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4" asp-for="Begin"></label>
+                    <div class="col-xs-4">
+
+                        <input type="text" class="form-control" asp-for="Begin" autocomplete="off" />
+
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-4" asp-for="End"></label>
+                    <div class="col-xs-4">
+
+                        <input type="text" class="form-control" asp-for="End" autocomplete="off" />
+
+
+                    </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-4 col-xs-10">
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Admins"))
+                            {
+                                <input type="submit" class="btn btn-primary" value="Save" />
+                            }
+                            <a asp-action="index" class="btn btn-default">&laquo;&nbsp;&nbsp;Back to list</a>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                @*<hr>
+        <div class="well well-sm">
+            <div class="row">
+                <div class="col-xs-3">
+                    <p><strong>Education Certificate</strong></p>
+                    <iframe src="@Url.Action("education", "image", new { id=Model.Id })#toolbar=0" width="1000" height="300" frameBorder="0" /><br><br>
+                </div>
+            </div>
+        </div>*@
+
+</form>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $('#collapseOne').removeClass('in');
+        $('#collapseTwo').removeClass('in');
+        $('#collapseThree').removeClass('in');
+        $('#collapseFour').removeClass('in');
+
+        $('#collapseOne').addClass('in');
+    </script>}

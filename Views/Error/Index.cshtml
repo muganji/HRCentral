@@ -1,0 +1,31 @@
+﻿@{
+    Layout = null;
+    var statusCode = ViewData["StatusCode"] as string;
+
+    switch (statusCode)
+    {
+        case "403":
+            ViewData["Title"] = "Access Denied";
+            @await Html.PartialAsync("_403Partial")
+            break;
+        case "404":
+            ViewData["Title"] = "Not Found";
+            @await Html.PartialAsync("_404Partial")
+            break;
+        case "500":
+            ViewData["Title"] = "Internal Server Error";
+            @await Html.PartialAsync("_500Partial")
+            break;
+        case "401":
+            ViewData["Title"] = "Authorization Required";
+            @await Html.PartialAsync("_401Partial")
+            break;
+        case "408":
+            ViewData["Title"] = "Request Time-Out";
+            @await Html.PartialAsync("_408Partial")
+            break;
+
+        default:
+            break;
+    }
+}

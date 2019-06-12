@@ -1,0 +1,120 @@
+﻿@model NewEmployeeLeaveViewModel
+@{
+    ViewData["Title"] = "Apply For Leave";
+    var employeeSelectList = ViewData["Employees"] as IEnumerable<SelectListItem>;
+    var leavetypeSelectList = ViewData["LeaveDays"] as IEnumerable<SelectListItem>;
+    var responseMessage = TempData["Message"] == null ? string.Empty : TempData["Message"].ToString();
+}
+<h3>Apply For a Leave</h3>
+<hr style="padding: 0; border-color: blue;">
+@if (!string.IsNullOrWhiteSpace(responseMessage))
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        @Html.Raw(responseMessage)
+    </div>
+}
+
+<div class="panel-body">
+    <form asp-action="add" class="form-horizontal" method="post" role="form">
+        <div asp-validation-summary="All" class="alert alert-danger"></div>
+        <br>
+        <div class="panel-group">
+            <div class="panel panel-success">
+                <div class="panel-heading">Leave Details</div>
+                <div class="panel-body">
+                    <br>
+                    <div class="form-group">
+                        <label asp-for="EmployeeId" class="control-label col-xs-4"></label>
+                        <div class="col-xs-4">
+                            <select asp-for="EmployeeId" class="form-control" asp-items="@employeeSelectList" required>
+                                <option>--- Select Employee ---</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ReplacementId" class="control-label col-xs-4"></label>
+                        <div class="col-xs-4">
+                            <select asp-for="ReplacementId" class="form-control" asp-items="@employeeSelectList" required>
+                                <option>--- Select Replacement ---</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LeaveTypeId" class="control-label col-xs-4"></label>
+                        <div class="col-xs-4">
+                            <select asp-for="LeaveTypeId" class="form-control" asp-items="@leavetypeSelectList" required>
+                                <option>--- Select Replacement ---</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DaystoTake" class="control-label col-xs-4"></label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" asp-for="DaystoTake" placeholder="Leave days to take" required autocomplete="off" />
+                        </div>
+                    </div>
+                    @*<div class="form-group">
+                        <label asp-for="RejectReason" class="control-label col-xs-4"></label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" asp-for="RejectReason" placeholder="Reason for leave reject" autocomplete="off" />
+                        </div>
+                    </div>*@
+                    @*<div class="form-group">
+                        <label asp-for="Status" class="control-label col-xs-4"></label>
+                        <div class="col-xs-4">
+                            <select class="form-control" data-val="true" data-val-required="Leaving Status field is required." asp-for="Status" required>
+                                <option value="Pending">Pending</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Rejected">Rejected</option>
+
+                            </select>
+                        </div>
+                    </div>*@
+                    <div class="form-group">
+                        <label asp-for="StartDate" class="control-label col-xs-4"></label>
+                        <div class="col-xs-4">
+                            <div class="input-group date">
+                                <input type="text" class="form-control" asp-for="StartDate" onkeypress="return false;" placeholder="Leave Start date" required autocomplete="off" id="datetimepicker" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                                <span asp-validation-for="StartDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-4 col-xs-10">
+                            <input type="submit" class="btn btn-primary" value="Save" />
+                            <a asp-action="index" class="btn btn-default">&laquo;&nbsp;&nbsp;Back to list</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+@section Scripts{
+    <link href="~/lib/datetimepicker/build/jquery.datetimepicker.min.css" rel="stylesheet" />
+    <script src="~/lib/datetimepicker/build/jquery.datetimepicker.full.js"></script>
+    <script>
+        $('#collapseOne').removeClass('in');
+        $('#collapseTwo').removeClass('in');
+        $('#collapseThree').removeClass('in');
+        $('#collapseFour').removeClass('in');
+        $('#collapseFive').removeClass('in');
+        $('#collapseSix').removeClass('in');
+        $('#collapseSix').addClass('in');
+    </script>
+    <script>
+        $(function () {
+            $('#datetimepicker').datetimepicker({
+                format: 'Y-m-d',
+                timepicker: false
+            });
+        });
+    </script>
+
+}
+

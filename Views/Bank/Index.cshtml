@@ -1,0 +1,57 @@
+﻿@model IPagedList<BankListViewModel>
+@{
+    ViewData["Title"] = "Banks";
+}
+<h3>Banks</h3>
+<hr style="padding: 0; border-color: indigo;">
+
+<a asp-action="add" class="btn btn-danger">Add Bank</a><br><br>
+                                                           <div class="panel panel-success">
+                                                               <table class="table table-light table-sm table-bordered table-condesed table-striped">
+                                                                   <thead class="thead-dark">
+                                                                       <tr>
+
+                                                                           <th class="col-12">Bank Name</th>
+                                                                           <th class="col-12">Date Added</th>
+                                                                           <th class="col-12">Date Modified</th>
+                                                                           <th class="col-12">CreatedBy</th>
+                                                                           <th class="col-12">Action</th>
+                                                                       </tr>
+                                                                   </thead>
+                                                                   <tbody>
+                                                                       @if (Model != null)
+                                                                       {
+                                                                           foreach (var bank in Model)
+                                                                           {
+                                                                               <tr>
+
+                                                                                   <td class="col-12"><a asp-action="details" asp-route-id=@bank.Id>@bank.Name</a></td>
+                                                                                   <td class="col-12">@bank.DateAdded</td>
+                                                                                   <td class="col-12">@bank.DateModified</td>
+                                                                                   <td class="col-12">@bank.CreatedBy</td>
+                                                                                   @if (User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Deletors") || User.Identity.IsAuthenticated && User.IsInRole("ACL-Developers") || User.Identity.IsAuthenticated && User.IsInRole("ACL-HRCentralDatabase-Admins"))
+                                                                                   {
+                                                                                       <td>
+                                                                                           <a asp-action="delete" asp-route-id="@bank.Id">Delete</a>
+                                                                                       </td>
+                                                                                   }
+                                                                               </tr>
+                                                                           }
+                                                                       }
+                                                                   </tbody>
+                                                               </table>
+                                                               <div class="card-footer">
+                                                                   <pager />
+                                                               </div>
+                                                           </div>
+
+@section Scripts{
+    <script>
+        $('#collapseOne').removeClass('in');
+        $('#collapseTwo').removeClass('in');
+        $('#collapseThree').removeClass('in');
+        $('#collapseFour').removeClass('in');
+
+         $('#collapseThree').addClass('in');
+    </script>
+}

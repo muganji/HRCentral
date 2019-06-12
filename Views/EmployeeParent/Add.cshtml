@@ -1,0 +1,113 @@
+﻿@model NewEmployeeParentsViewModel
+@{
+    ViewData["Title"] = "Add Employee Parent";
+    var employeeSelectList = ViewData["Employees"] as IEnumerable<SelectListItem>;
+    var nationalitySelectList = ViewData["Nationality"] as IEnumerable<SelectListItem>;
+    var districtSelectList = ViewData["District"] as IEnumerable<SelectListItem>;
+    var responseMessage = TempData["Message"] == null ? string.Empty : TempData["Message"].ToString();
+}
+<h3>Add Parents</h3>
+<hr style="padding: 0; border-color: blue;">
+@if (!string.IsNullOrWhiteSpace(responseMessage))
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        @Html.Raw(responseMessage)
+    </div>
+}
+
+<div class="panel-body">
+    <form asp-action="add" class="form-horizontal" method="post" role="form">
+        <div asp-validation-summary="All" class="alert alert-danger"></div>
+        <br>
+        <div class="panel-group">
+            <div class="panel panel-success">
+                <div class="panel-heading">Parents Details</div>
+                <div class="panel-body">
+                    <br>
+                    <div class="form-group">
+                        <label asp-for="EmployeeId" class="control-label col-xs-4"></label>
+                        <div class="col-xs-4">
+                            <select asp-for="EmployeeId" class="form-control" asp-items="@employeeSelectList" required>
+                                <option>--- Select Employee ---</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="NationalityId" class="control-label col-xs-4"></label>
+                        <div class="col-xs-4">
+                            <select asp-for="NationalityId" class="form-control" asp-items="@nationalitySelectList" required>
+                                <option>--- Select Nationality ---</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label col-xs-4"></label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" asp-for="Name" placeholder="Parent Names" required autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Residence" class="control-label col-xs-4"></label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" asp-for="Residence" placeholder="Parents address" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Alive" class="control-label col-xs-4"></label>
+                        <div class="col-xs-4">
+                            <select class="form-control" data-val="true" data-val-required="The Parent Status field is required." asp-for="Alive" required>
+                                <option> --- Select Parent Status ---</option>
+                                <option value="True">True</option>
+                                <option value="False">False</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ContactInfo" class="control-label col-xs-4"></label>
+                        <div class="col-xs-4">
+                            <input type="text" class="form-control" asp-for="ContactInfo" placeholder="Parents Contact Info" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HomeDistrictId" class="control-label col-xs-4"></label>
+                        <div class="col-xs-4">
+                            <select asp-for="HomeDistrictId" class="form-control" asp-items="@districtSelectList" required>
+                                <option>--- Select HomeDistrict ---</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DistrictResidenceId" class="control-label col-xs-4"></label>
+                        <div class="col-xs-4">
+                            <select asp-for="DistrictResidenceId" class="form-control" asp-items="@districtSelectList" required>
+                                <option>--- Select ResidenceDistrict ---</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-4 col-xs-10">
+                            <input type="submit" class="btn btn-primary" value="Save" />
+                            <a asp-action="index" class="btn btn-default">&laquo;&nbsp;&nbsp;Back to list</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts{
+    <script>
+           $('#collapseOne').removeClass('in');
+                                $('#collapseTwo').removeClass('in');
+                                $('#collapseThree').removeClass('in');
+        $('#collapseFour').removeClass('in');
+        $('#collapseFive').removeClass('in');
+         $('#collapseSix').removeClass('in');
+
+        $('#collapseTwo').addClass('in');
+    </script>
+}
